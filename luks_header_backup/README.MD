@@ -70,4 +70,4 @@ cryptsetup --header header_sdd1.bin luksOpen /dev/sdd1
 or
 cryptsetup luksHeaderRestore --header-backup-file header_sdd1.bin /dev/sdd1
 ```
-N.B: On debian variant distro luks device named with `partitionname_crypt` e.g, `sda3_crypt` that is why key name will be something like `sda4_crypt-key.bin` 
+N.B: On debian variant distro luks device named with `partitionname_crypt` e.g, `sda3_crypt` that is why key name will be something like `sda4_crypt-key.bin`. 
