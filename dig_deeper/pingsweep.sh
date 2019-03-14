@@ -44,19 +44,25 @@ howd
 
 ## First Argument into variable ip1
 if [ "$1" != "" ]; then ip1=$1
-else	help && exit 1
+else	echo "Please Type IP1 : "; read ip1
 fi
 
 ## Second Argument into variable ip2
 if [ "$2" != "" ]; then ip2=$2
-else	help && exit 1
+else	echo "Please Type IP1 : "; read ip2
 fi
 
-## Third Argument into variable pns
 if [ "$3" != "" ]; then 
 	pns=$3
 	pns1=@$pns
 fi
+## Third Argument into variable pns
+echo "Do you want to resplve from a specific name server? The press Y"
+read dicission
+
+if [ "$dicission" == 'Y' ] || [ "$dicission" == 'y' ]; then echo "Please Type NS1 : "; 	read pns; 	pns1=@$pns
+fi	
+
 
 
 ## Checking If Dig is available 
@@ -89,7 +95,7 @@ function scanningwithDefNS()
 		ping -c 1 -W 1 $ip | sed -n 2p | sed -r 's/^.*ttl=([[:digit:]]{1,3})[[:space:]]time=([[:digit:]]{1,5}(\.[[:digit:]]{1,6})?[[:space:]]ms)$/TTL: \1\nRTT: \2/'
 		ns=$(dig -x $ip  +short)
 		if [ "$ns" != "" ]; then
-			printf "\nName Server: $ns\n"
+			printf "\nName: $ns\n"
 			echo "---------------------------------------------"
 			printf "\nA Records:\n"
 			echo "---------------------------------------------"
@@ -149,7 +155,7 @@ function scanningwithSpecNS()
 		ping -c 1 -W 1 $ip | sed -n 2p | sed -r 's/^.*ttl=([[:digit:]]{1,3})[[:space:]]time=([[:digit:]]{1,5}(\.[[:digit:]]{1,6})?[[:space:]]ms)$/TTL: \1\nRTT: \2/'
 		ns=$(dig -x $ip  +short $pns1)
 		if [ "$ns" != "" ]; then
-			printf "\nName Server: $ns\n"
+			printf "\nName: $ns\n"
 			echo "---------------------------------------------"
 			printf "\nA Records:\n"
 			echo "---------------------------------------------"
@@ -239,16 +245,16 @@ function valid_ip()
 #########################################################
 
 ## Validating First IP
-if valid_ip $ip1 || die "|| STEP 2 || - Wrong ip. Correct IP format \"xxx.xxx.xxx.xxx\" where X represent number and in one octate highest value is 255"; then echo "Correct IP1."
+if valid_ip $ip1 || die "|| STEP 2 || - Wrong ip :( . Correct IP format \"xxx.xxx.xxx.xxx\" where X represent number and in one octate highest value is 255"; then echo "Correct IP1."
 fi
 
 ## Validating 2nd IP
-if valid_ip $ip2 || die "|| STEP 3 || - Wrong ip. Correct IP format \"xxx.xxx.xxx.xxx\" where X represent number and in one octate highest value is 255"; then echo "Correct IP2"
+if valid_ip $ip2 || die "|| STEP 3 || - Wrong ip :( . Correct IP format \"xxx.xxx.xxx.xxx\" where X represent number and in one octate highest value is 255"; then echo "Correct IP2" 
 fi
 
 ## Validating Nameserver 
 if [ "$pns" != "" ]; then
-	if valid_ip $pns || die "|| STEP 4 || - Wrong ip. Correct IP format \"xxx.xxx.xxx.xxx\" where X represent number and in one octate highest value is 255"; then echo "Correct NS1."
+	if valid_ip $pns || die "|| STEP 4 || - Wrong ip :( . Correct IP format \"xxx.xxx.xxx.xxx\" where X represent number and in one octate highest value is 255"; then echo "Correct NS1." 
 	fi
 fi
 
